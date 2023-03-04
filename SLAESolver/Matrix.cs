@@ -1,4 +1,4 @@
-﻿namespace SLAE_Solver;
+﻿namespace SLAESolver;
 
 public class Matrix
 {
