@@ -29,7 +29,7 @@ public class Matrix
             throw new ArgumentException(nameof(rows));
         if (cols <= 0)
             throw new ArgumentException(nameof(cols));
-        
+
         Rows = rows;
         Cols = cols;
         _matrix = matrix;
@@ -41,26 +41,44 @@ public class Matrix
         CheckRow(secondRowIndex);
 
         for (int i = 0; i < Cols; i++)
-            (_matrix[firstRowIndex, i], _matrix[secondRowIndex, i]) 
+            (_matrix[firstRowIndex, i], _matrix[secondRowIndex, i])
                 = (_matrix[secondRowIndex, i], _matrix[firstRowIndex, i]);
     }
-    
+
     public void GetMainElement(int row, int col)
     {
         float maxValue = _matrix[row, col];
         int maxValueRow = row;
-        
+
         CheckIndexes(row, col);
-        
+
         for (int i = row + 1; i < Rows; i++)
         {
             if (_matrix[i, col] > maxValue)
             {
                 maxValue = _matrix[i, col];
                 maxValueRow = i;
-            } 
+            }
         }
+
         SwapRows(maxValueRow, row);
+    }
+
+    public float GetMatrixNorm()
+    {
+        float matrixNorm = -1;
+
+        for (int i = 0; i < Rows; i++)
+        {
+            float sum = 0;
+
+            for (int j = 0; j < Cols - 1; j++)
+                sum += Math.Abs(_matrix[i, j]);
+
+            matrixNorm = (sum > matrixNorm) ? sum : matrixNorm;
+        }
+
+        return matrixNorm;
     }
 
     private void CheckRow(int row)
@@ -71,10 +89,10 @@ public class Matrix
 
     private void CheckCol(int col)
     {
-        if (col < 0 || col >= Cols) 
+        if (col < 0 || col >= Cols)
             throw new IndexOutOfRangeException(nameof(col));
     }
-    
+
     private void CheckIndexes(int row, int col)
     {
         CheckRow(row);

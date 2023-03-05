@@ -4,9 +4,12 @@ public static class Program
 {
     public static void Main()
     {
-        RunGauss();
-        Console.WriteLine("\n");
-        RunSweep();
+        //RunGauss();
+        //Console.WriteLine("\n");
+        //RunSweep();
+        RunSeidel();
+        //RunSeidelTest1();
+        //RunSeidelTest1();
     }
 
     private static void RunGauss()
@@ -48,7 +51,7 @@ public static class Program
 
         Matrix matrix = new Matrix(matrixValues, 4, 5);
         SweepMethod sweepMethod = new SweepMethod();
-        
+
         Console.WriteLine("Sweep method");
         Console.WriteLine("Expected values: x1 = 0.5256 x2 = 0.628 x3 = 0.64 x4 = 1.2");
 
@@ -57,5 +60,88 @@ public static class Program
         Console.Write("Solution: ");
         for (int i = 0; i < solution.Length; i++)
             Console.Write($"x{i + 1} = {solution[i]} ");
+    }
+
+    private static void RunSeidel()
+    {
+        try
+        {
+            float[,] matrixValues =
+            {
+                { 0, -0.2f, -0.1f, 1.4f },
+                { -0.1111f, 0, -0.1111f, 1.3333f },
+                { -0.1818f, -0.1818f, 0, 2.3636f }
+            };
+
+            float epsilon = 0.001f;
+            Matrix matrix = new Matrix(matrixValues, 3, 4);
+            SeidelMethod seidelMethod = new SeidelMethod();
+            float[] solution = seidelMethod.Solve(matrix, epsilon, true);
+
+            foreach (var val in solution)
+            {
+                Console.Write($"{val} ");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private static void RunSeidelTest1()
+    {
+        try
+        {
+            float[,] matrixValues =
+            {
+                { 0, -0.5f, -7.5f, -0.5f, 10.5f },
+                { 3, 0, 2, 20, -27 },
+                { -1, -10, 0, -1, 14 },
+                { 1.5f, 1, 7, 0, -10 }
+            };
+
+            float epsilon = 0.001f;
+            Matrix matrix = new Matrix(matrixValues, 4, 5);
+            SeidelMethod seidelMethod = new SeidelMethod();
+            float[] solution = seidelMethod.Solve(matrix, epsilon, true);
+
+            foreach (var val in solution)
+            {
+                Console.Write($"{val} ");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private static void RunSeidelTest2()
+    {
+        try
+        {
+            float[,] matrixValues =
+            {
+                { 0, -1f, 1f, 3f, -1f },
+                { -0.1f, 0, -0.1f, -0.1f, 1.4f },
+                { -0.1113f, -0.0667f, 0, -0.0667f, 1.4f },
+                { -0.15f, 0.05f, -0.1f, 0, 1.35f }
+            };
+
+            float epsilon = 0.001f;
+            Matrix matrix = new Matrix(matrixValues, 4, 5);
+            SeidelMethod seidelMethod = new SeidelMethod();
+            float[] solution = seidelMethod.Solve(matrix, epsilon, true);
+
+            foreach (var val in solution)
+            {
+                Console.Write($"{val} ");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
