@@ -8,6 +8,7 @@ public static class Program
         //Console.WriteLine("\n");
         //RunSweep();
         RunSeidel();
+        RunSimpleIterationMethod();
         //RunSeidelTest1();
         //RunSeidelTest1();
     }
@@ -89,6 +90,33 @@ public static class Program
         }
     }
 
+    private static void RunSimpleIterationMethod()
+    {
+        try
+        {
+            float[,] matrixValues =
+            {
+                { 0, -0.2f, -0.1f, 1.4f },
+                { -0.1111f, 0, -0.1111f, 1.3333f },
+                { -0.1818f, -0.1818f, 0, 2.3636f }
+            };
+
+            float epsilon = 0.0001f;
+            Matrix matrix = new Matrix(matrixValues, 3, 4);
+            SimpleIterationMethod seidelMethod = new SimpleIterationMethod();
+            float[] solution = seidelMethod.Solve(matrix, epsilon, true);
+            Console.WriteLine();
+            foreach (var val in solution)
+            {
+                Console.Write($"{val} ");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
     private static void RunSeidelTest1()
     {
         try
@@ -105,7 +133,7 @@ public static class Program
             Matrix matrix = new Matrix(matrixValues, 4, 5);
             SeidelMethod seidelMethod = new SeidelMethod();
             float[] solution = seidelMethod.Solve(matrix, epsilon, true);
-
+            
             foreach (var val in solution)
             {
                 Console.Write($"{val} ");
